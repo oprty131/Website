@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Script Host</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Roblox Script Host</h1>
+    <p>Use the links below to access your Roblox scripts:</p>
+    <ul id="scriptList"></ul>
+    <form id="scriptForm">
+        <input type="text" id="scriptName" placeholder="Script Name" required>
+        <textarea id="scriptContent" placeholder="Enter your Lua script here" required></textarea>
+        <button type="submit">Add Script</button>
+    </form>
+    <script>
+        const scriptList = document.getElementById('scriptList');
+        const scriptForm = document.getElementById('scriptForm');
+
+        scriptForm.onsubmit = (e) => {
+            e.preventDefault();
+            const name = document.getElementById('scriptName').value;
+            const content = document.getElementById('scriptContent').value;
+
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="#" onclick="downloadScript('${name}', \`${content}\`)">${name}</a>`;
+            scriptList.appendChild(li);
+
+            // Clear the form
+            scriptForm.reset();
+        };
+
+        function downloadScript(name, content) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${name}.lua`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>
