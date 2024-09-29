@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roblox Script Manager</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,16 +30,19 @@
             margin: 5px;
             cursor: pointer;
         }
-        #rawLinkContainer {
+        #rawLinkContainer, #pastesContainer {
             display: none;
-            margin-top: 10px;
+            margin-top: 20px;
             background: #ffffff;
             border: 1px solid #ccc;
             padding: 10px;
         }
-        #rawLink {
-            display: block;
-            word-wrap: break-word;
+        #pastesList {
+            list-style-type: none;
+            padding: 0;
+        }
+        .paste-item {
+            margin: 5px 0;
         }
     </style>
 </head>
@@ -52,12 +54,16 @@
     <main>
         <h3>Add a New Script</h3>
         <textarea id="scriptInput" placeholder="Enter your Roblox script here..."></textarea>
-        <button id="showRawLinkButton">Show Raw Script Link</button>
-
+        <button id="saveScriptButton">Save Script</button>
         <div id="rawLinkContainer">
             <h4>Raw Script Link:</h4>
             <a id="rawLink" href="" target="_blank"></a>
             <button id="copyRawLinkButton">Copy Raw Link</button>
+        </div>
+
+        <div id="pastesContainer">
+            <h3>Saved Pastes</h3>
+            <ul id="pastesList"></ul>
         </div>
     </main>
 
@@ -66,14 +72,62 @@
         const rawLinkContainer = document.getElementById('rawLinkContainer');
         const rawLink = document.getElementById('rawLink');
         const copyRawLinkButton = document.getElementById('copyRawLinkButton');
+        const pastesContainer = document.getElementById('pastesContainer');
+        const pastesList = document.getElementById('pastesList');
 
-        document.getElementById('showRawLinkButton').onclick = function() {
-            const scriptContent = encodeURIComponent(scriptInput.value);
-            const rawUrl = `data:text/plain;charset=utf-8,${scriptContent}`;
-            rawLink.href = rawUrl;
-            rawLink.innerText = rawUrl;
-            rawLinkContainer.style.display = 'block';
+        let pastes = [];
+
+        document.getElementById('saveScriptButton').onclick = function() {
+            const scriptContent = scriptInput.value;
+            if (scriptContent.trim()) {
+                const pasteId = new Date().getTime();
+                pastes.push({ id: pasteId, content: scriptContent });
+                displayPastes();
+                scriptInput.value = ''; // Clear the input
+            } else {
+                alert('Please enter a script before saving.');
+            }
         };
+
+        function displayPastes() {
+            pastesList.innerHTML = '';
+            pastes.forEach(paste => {
+                const pasteItem = document.createElement('li');
+                pasteItem.className = 'paste-item';
+                pasteItem.innerHTML = `
+                    <strong>Paste ${paste.id}:</strong>
+                    <button onclick="showRaw(${paste.id})">Raw</button>
+                    <button onclick="editPaste(${paste.id})">Edit</button>
+                    <button onclick="deletePaste(${paste.id})">Delete</button>
+                `;
+                pastesList.appendChild(pasteItem);
+            });
+            pastesContainer.style.display = pastes.length > 0 ? 'block' : 'none';
+        }
+
+        function showRaw(id) {
+            const paste = pastes.find(p => p.id === id);
+            if (paste) {
+                const rawUrl = `data:text/plain;charset=utf-8,${encodeURIComponent(paste.content)}`;
+                rawLink.href = rawUrl;
+                rawLink.innerText = rawUrl;
+                rawLinkContainer.style.display = 'block';
+            }
+        }
+
+        function editPaste(id) {
+            const paste = pastes.find(p => p.id === id);
+            if (paste) {
+                scriptInput.value = paste.content; // Load the script into the textarea for editing
+                deletePaste(id); // Delete the original paste
+            }
+        }
+
+        function deletePaste(id) {
+            pastes = pastes.filter(paste => paste.id !== id);
+            displayPastes();
+            alert('Paste deleted.');
+        }
 
         copyRawLinkButton.onclick = function() {
             navigator.clipboard.writeText(rawLink.href)
