@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #181818;
+            background: linear-gradient(135deg, #1f1c2c, #928DAB); /* Smooth gradient background */
             color: #ffffff;
             display: flex;
             flex-direction: column;
@@ -16,28 +16,38 @@
             height: 100vh;
             margin: 0;
         }
+
         h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow for cool effect */
         }
+
         p {
             font-size: 1.2em;
             text-align: center;
             margin-bottom: 30px;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); /* Lighter shadow for text */
         }
+
         .features {
-            background-color: #2e2e2e;
+            background-color: rgba(46, 46, 46, 0.8); /* Transparent background */
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6); /* Glowing shadow */
+            backdrop-filter: blur(5px); /* Blurring background behind */
         }
+
         .image-container {
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
+
         img {
-            width: 150px; /* Adjust as necessary */
+            width: 150px;
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Add shadow to the image */
         }
+
         .get-button, .discord-button {
             background-color: #ff4757;
             color: white;
@@ -46,18 +56,24 @@
             border-radius: 5px;
             font-size: 1em;
             cursor: pointer;
-            transition: background-color 0.3s;
-            margin: 10px 0; /* Add margin for spacing */
+            transition: background-color 0.3s, box-shadow 0.3s;
+            margin: 10px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Button shadow */
         }
+
         .get-button:hover, .discord-button:hover {
             background-color: #ff6b81;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Increase shadow on hover */
         }
+
         .discord-button {
-            background-color: #007bff; /* Blue color */
+            background-color: #007bff;
         }
+
         .discord-button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3;
         }
+
         /* Overlay styles */
         .overlay {
             display: none;
@@ -71,14 +87,16 @@
             align-items: center;
             z-index: 1000;
         }
+
         .overlay-content {
-            background-color: #2e2e2e;
+            background-color: rgba(46, 46, 46, 0.9);
             padding: 20px;
             border-radius: 10px;
             text-align: center;
             color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
         }
+
         .copy-button {
             background-color: #1e90ff;
             color: white;
@@ -86,28 +104,28 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Button shadow */
         }
+
         .copy-button:hover {
             background-color: #1c86ee;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Increase shadow on hover */
         }
     </style>
 </head>
 <body>
-    <div class="image-container">
-        <img src="https://cdn.discordapp.com/icons/1218339001203818576/6b29690c1a2f2f92030826a0cb94e90c.png?size=4096" alt="TBO Logo">
-    </div>
     <h1>TBO for Da Hood</h1>
     <p>This script allows you to access amazing features like:</p>
     <div class="features">
         <ul>
             <li>Get all lockpicks</li>            
-            <li>superhero fly</li>
+            <li>Superhero fly</li>
             <li>God block</li>
             <li>Bring</li> 
-            <li>auto kill</li>
+            <li>Auto kill</li>
             <li>Trolling</li>
-            <li>auto Buys</li>     
+            <li>Auto Buys</li>     
             <li>And more...</li>
         </ul>
     </div>
@@ -120,6 +138,11 @@
             Join Discord Server
         </button>
     </a>
+
+    <!-- Image directly after the button -->
+    <div class="image-container">
+        <img src="https://cdn.discordapp.com/icons/1218339001203818576/6b29690c1a2f2f92030826a0cb94e90c.png?size=4096" alt="TBO Logo">
+    </div>
 
     <!-- Overlay -->
     <div class="overlay" id="scriptOverlay">
