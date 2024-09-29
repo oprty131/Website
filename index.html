@@ -3,62 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox Script Host</title>
+    <title>Roblox Script Manager</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
+            background-color: #f4f4f4;
         }
-        h1 {
-            color: #333;
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-align: center;
         }
-        a {
-            color: #007BFF;
-            text-decoration: none;
+        main {
+            margin: 20px 0;
         }
-        a:hover {
-            text-decoration: underline;
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        #rawScriptContainer {
+            display: none;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to My Roblox Script Host</h1>
-    <p>Use the links below to access your Roblox scripts:</p>
-    <ul id="scriptList"></ul>
-    <form id="scriptForm">
-        <input type="text" id="scriptName" placeholder="Script Name" required>
-        <textarea id="scriptContent" placeholder="Enter your Lua script here" required></textarea>
-        <button type="submit">Add Script</button>
-    </form>
+    <header>
+        <h1>Roblox Script Manager</h1>
+    </header>
+
+    <main>
+        <h3>Add a New Script</h3>
+        <textarea id="scriptInput" placeholder="Enter your Roblox script here..."></textarea>
+        <button id="showRawButton">Show Raw Script</button>
+        <button id="copyScriptButton" style="display: none;">Copy Script</button>
+
+        <div id="rawScriptContainer">
+            <h4>Raw Script:</h4>
+            <pre id="rawScriptDisplay"></pre>
+        </div>
+    </main>
+
     <script>
-        const scriptList = document.getElementById('scriptList');
-        const scriptForm = document.getElementById('scriptForm');
+        const scriptInput = document.getElementById('scriptInput');
+        const rawScriptContainer = document.getElementById('rawScriptContainer');
+        const rawScriptDisplay = document.getElementById('rawScriptDisplay');
+        const copyScriptButton = document.getElementById('copyScriptButton');
 
-        scriptForm.onsubmit = (e) => {
-            e.preventDefault();
-            const name = document.getElementById('scriptName').value;
-            const content = document.getElementById('scriptContent').value;
-
-            const li = document.createElement('li');
-            li.innerHTML = `<a href="#" onclick="downloadScript('${name}', \`${content}\`)">${name}</a>`;
-            scriptList.appendChild(li);
-
-            // Clear the form
-            scriptForm.reset();
+        document.getElementById('showRawButton').onclick = function() {
+            const scriptContent = scriptInput.value;
+            rawScriptDisplay.innerText = scriptContent;
+            rawScriptContainer.style.display = 'block';
+            copyScriptButton.style.display = 'inline';
         };
 
-        function downloadScript(name, content) {
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${name}.lua`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
+        copyScriptButton.onclick = function() {
+            navigator.clipboard.writeText(rawScriptDisplay.innerText)
+                .then(() => {
+                    alert('Script copied to clipboard!');
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+        };
     </script>
 </body>
 </html>
