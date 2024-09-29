@@ -38,7 +38,7 @@
             width: 150px; /* Adjust as necessary */
             border-radius: 10px;
         }
-        .load-button {
+        .get-button {
             background-color: #ff4757;
             color: white;
             padding: 15px 25px;
@@ -48,8 +48,41 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .load-button:hover {
+        .get-button:hover {
             background-color: #ff6b81;
+        }
+        /* Overlay styles */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .overlay-content {
+            background-color: #2e2e2e;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .copy-button {
+            background-color: #1e90ff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .copy-button:hover {
+            background-color: #1c86ee;
         }
     </style>
 </head>
@@ -65,11 +98,33 @@
             <li>And more...</li>
         </ul>
     </div>
-    <button class="load-button" onclick="loadScript()">Load TBO Script</button>
+    <button class="get-button" onclick="showOverlay()">Get TBO Script</button>
+
+    <!-- Overlay -->
+    <div class="overlay" id="scriptOverlay">
+        <div class="overlay-content">
+            <h2>Copy the Loadstring</h2>
+            <pre id="scriptText" style="white-space: pre-wrap; word-wrap: break-word;">loadstring(game:HttpGet("https://raw.githubusercontent.com/cool5013/TBO/main/TBOscript"))();</pre>
+            <button class="copy-button" onclick="copyToClipboard()">Copy to Clipboard</button>
+            <p id="copyNotification" style="margin-top: 10px; display: none;">Successfully copied to your clipboard!</p>
+            <button class="copy-button" onclick="closeOverlay()">Close</button>
+        </div>
+    </div>
 
     <script>
-        function loadScript() {
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/cool5013/TBO/main/TBOscript"))();
+        function showOverlay() {
+            document.getElementById('scriptOverlay').style.display = 'flex';
+        }
+
+        function closeOverlay() {
+            document.getElementById('scriptOverlay').style.display = 'none';
+        }
+
+        function copyToClipboard() {
+            const scriptText = document.getElementById('scriptText').innerText;
+            navigator.clipboard.writeText(scriptText).then(() => {
+                document.getElementById('copyNotification').style.display = 'block';
+            });
         }
     </script>
 </body>
