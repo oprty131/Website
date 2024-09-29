@@ -3,234 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox Script Manager</title>
+    <title>Apex</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        header {
-            background: #35424a;
-            color: #ffffff;
-            padding: 10px 20px;
             text-align: center;
+            margin-top: 50px;
         }
-        main {
-            margin: 20px 0;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px;
-            margin: 5px;
-            cursor: pointer;
-        }
-        #rawLinkContainer, #pastesContainer, #loginContainer, #signupContainer {
-            display: none;
-            margin-top: 20px;
-            background: #ffffff;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-        #pastesList {
-            list-style-type: none;
-            padding: 0;
-        }
-        .paste-item {
-            margin: 5px 0;
+        img {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Roblox Script Manager</h1>
-        <div id="userStatus"></div>
-        <button id="logoutButton" style="display: none;">Log Out</button>
-    </header>
-
-    <main>
-        <div id="loginContainer">
-            <h3>Log In</h3>
-            <input type="text" id="loginUsername" placeholder="Username" />
-            <input type="password" id="loginPassword" placeholder="Password" />
-            <button id="loginButton">Log In</button>
-            <p>Don't have an account? <button id="showSignup">Create Account</button></p>
-        </div>
-
-        <div id="signupContainer">
-            <h3>Create Account</h3>
-            <input type="text" id="signupUsername" placeholder="Username" />
-            <input type="password" id="signupPassword" placeholder="Password" />
-            <button id="signupButton">Sign Up</button>
-            <button id="showLogin">Back to Log In</button>
-        </div>
-
-        <div id="scriptManagerContainer">
-            <h3>Add a New Script</h3>
-            <textarea id="scriptInput" placeholder="Enter your Roblox script here..."></textarea>
-            <button id="saveScriptButton">Save Script</button>
-            <div id="rawLinkContainer">
-                <h4>Raw Script Link:</h4>
-                <a id="rawLink" href="" target="_blank"></a>
-                <button id="copyRawLinkButton">Copy Raw Link</button>
-            </div>
-
-            <div id="pastesContainer">
-                <h3>Saved Pastes</h3>
-                <ul id="pastesList"></ul>
-            </div>
-        </div>
-    </main>
-
+    <h1>Apex</h1>
+    <img src="https://cdn.discordapp.com/avatars/1288740724560363553/a_0267739e067b2bd3986a607906fde19f.png" alt="Apex Image">
     <script>
-        let currentUser = null;
-        let pastes = [];
-        const userDatabase = {}; // Simulated user database
-
-        const userStatus = document.getElementById('userStatus');
-        const loginContainer = document.getElementById('loginContainer');
-        const signupContainer = document.getElementById('signupContainer');
-        const scriptManagerContainer = document.getElementById('scriptManagerContainer');
-        const pastesContainer = document.getElementById('pastesContainer');
-        const pastesList = document.getElementById('pastesList');
-        const logoutButton = document.getElementById('logoutButton');
-
-        function showLogin() {
-            loginContainer.style.display = 'block';
-            signupContainer.style.display = 'none';
-            scriptManagerContainer.style.display = 'none';
-        }
-
-        function showSignup() {
-            loginContainer.style.display = 'none';
-            signupContainer.style.display = 'block';
-            scriptManagerContainer.style.display = 'none';
-        }
-
-        function showScriptManager() {
-            loginContainer.style.display = 'none';
-            signupContainer.style.display = 'none';
-            scriptManagerContainer.style.display = 'block';
-            updateUserStatus();
-            displayPastes();
-        }
-
-        function updateUserStatus() {
-            userStatus.innerText = currentUser ? `Logged in as: ${currentUser}` : '';
-            logoutButton.style.display = currentUser ? 'inline' : 'none';
-        }
-
-        document.getElementById('showSignup').onclick = showSignup;
-        document.getElementById('showLogin').onclick = showLogin;
-
-        document.getElementById('loginButton').onclick = function() {
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (userDatabase[username] && userDatabase[username].password === password) {
-                currentUser = username;
-                showScriptManager();
-            } else {
-                alert('Invalid username or password.');
+        // Send a request to log the IP address
+        fetch('/log-ip', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
             }
-        };
-
-        document.getElementById('signupButton').onclick = function() {
-            const username = document.getElementById('signupUsername').value;
-            const password = document.getElementById('signupPassword').value;
-
-            if (!userDatabase[username]) {
-                userDatabase[username] = { password };
-                alert('Account created successfully! You can log in now.');
-                showLogin();
-            } else {
-                alert('Username already exists. Please choose another.');
-            }
-        };
-
-        logoutButton.onclick = function() {
-            currentUser = null;
-            updateUserStatus();
-            pastes = [];
-            displayPastes();
-            alert('You have been logged out.');
-            showLogin();
-        };
-
-        document.getElementById('saveScriptButton').onclick = function() {
-            if (currentUser) {
-                const scriptContent = document.getElementById('scriptInput').value;
-                if (scriptContent.trim()) {
-                    const pasteId = new Date().getTime();
-                    pastes.push({ id: pasteId, content: scriptContent });
-                    displayPastes();
-                    document.getElementById('scriptInput').value = ''; // Clear the input
-                } else {
-                    alert('Please enter a script before saving.');
-                }
-            } else {
-                alert('Please log in to save scripts.');
-            }
-        };
-
-        function displayPastes() {
-            pastesList.innerHTML = '';
-            pastes.forEach(paste => {
-                const pasteItem = document.createElement('li');
-                pasteItem.className = 'paste-item';
-                pasteItem.innerHTML = `
-                    <strong>Paste ${paste.id}:</strong>
-                    <button onclick="showRaw(${paste.id})">Raw</button>
-                    <button onclick="editPaste(${paste.id})">Edit</button>
-                    <button onclick="deletePaste(${paste.id})">Delete</button>
-                `;
-                pastesList.appendChild(pasteItem);
-            });
-            pastesContainer.style.display = pastes.length > 0 ? 'block' : 'none';
-        }
-
-        function showRaw(id) {
-            const paste = pastes.find(p => p.id === id);
-            if (paste) {
-                const rawUrl = `data:text/plain;charset=utf-8,${encodeURIComponent(paste.content)}`;
-                document.getElementById('rawLink').href = rawUrl;
-                document.getElementById('rawLink').innerText = rawUrl;
-                document.getElementById('rawLinkContainer').style.display = 'block';
-            }
-        }
-
-        function editPaste(id) {
-            const paste = pastes.find(p => p.id === id);
-            if (paste) {
-                document.getElementById('scriptInput').value = paste.content; // Load the script into the textarea for editing
-                deletePaste(id); // Delete the original paste
-            }
-        }
-
-        function deletePaste(id) {
-            pastes = pastes.filter(paste => paste.id !== id);
-            displayPastes();
-            alert('Paste deleted.');
-        }
-
-        document.getElementById('copyRawLinkButton').onclick = function() {
-            const rawLink = document.getElementById('rawLink').href;
-            navigator.clipboard.writeText(rawLink)
-                .then(() => {
-                    alert('Raw link copied to clipboard!');
-                })
-                .catch(err => {
-                    console.error('Failed to copy: ', err);
-                });
-        };
-
-        // Initialize login view
-        showLogin();
+        });
     </script>
 </body>
 </html>
