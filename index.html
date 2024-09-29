@@ -106,7 +106,6 @@
             <h2>Copy the Loadstring</h2>
             <pre id="scriptText" style="white-space: pre-wrap; word-wrap: break-word;">loadstring(game:HttpGet("https://raw.githubusercontent.com/cool5013/TBO/main/TBOscript"))();</pre>
             <button class="copy-button" onclick="copyToClipboard()">Copy to Clipboard</button>
-            <p id="copyNotification" style="margin-top: 10px; display: none;">Successfully copied to your clipboard!</p>
             <button class="copy-button" onclick="closeOverlay()">Close</button>
         </div>
     </div>
@@ -123,7 +122,7 @@
         function copyToClipboard() {
             const scriptText = document.getElementById('scriptText').innerText;
             navigator.clipboard.writeText(scriptText).then(() => {
-                document.getElementById('copyNotification').style.display = 'block';
+                alert("Successfully copied to your clipboard!");
             });
         }
     </script>
