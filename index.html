@@ -31,12 +31,16 @@
             margin: 5px;
             cursor: pointer;
         }
-        #rawScriptContainer {
+        #rawLinkContainer {
             display: none;
+            margin-top: 10px;
             background: #ffffff;
             border: 1px solid #ccc;
             padding: 10px;
-            margin-top: 10px;
+        }
+        #rawLink {
+            display: block;
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -48,32 +52,33 @@
     <main>
         <h3>Add a New Script</h3>
         <textarea id="scriptInput" placeholder="Enter your Roblox script here..."></textarea>
-        <button id="showRawButton">Show Raw Script</button>
-        <button id="copyScriptButton" style="display: none;">Copy Script</button>
+        <button id="showRawLinkButton">Show Raw Script Link</button>
 
-        <div id="rawScriptContainer">
-            <h4>Raw Script:</h4>
-            <pre id="rawScriptDisplay"></pre>
+        <div id="rawLinkContainer">
+            <h4>Raw Script Link:</h4>
+            <a id="rawLink" href="" target="_blank"></a>
+            <button id="copyRawLinkButton">Copy Raw Link</button>
         </div>
     </main>
 
     <script>
         const scriptInput = document.getElementById('scriptInput');
-        const rawScriptContainer = document.getElementById('rawScriptContainer');
-        const rawScriptDisplay = document.getElementById('rawScriptDisplay');
-        const copyScriptButton = document.getElementById('copyScriptButton');
+        const rawLinkContainer = document.getElementById('rawLinkContainer');
+        const rawLink = document.getElementById('rawLink');
+        const copyRawLinkButton = document.getElementById('copyRawLinkButton');
 
-        document.getElementById('showRawButton').onclick = function() {
-            const scriptContent = scriptInput.value;
-            rawScriptDisplay.innerText = scriptContent;
-            rawScriptContainer.style.display = 'block';
-            copyScriptButton.style.display = 'inline';
+        document.getElementById('showRawLinkButton').onclick = function() {
+            const scriptContent = encodeURIComponent(scriptInput.value);
+            const rawUrl = `data:text/plain;charset=utf-8,${scriptContent}`;
+            rawLink.href = rawUrl;
+            rawLink.innerText = rawUrl;
+            rawLinkContainer.style.display = 'block';
         };
 
-        copyScriptButton.onclick = function() {
-            navigator.clipboard.writeText(rawScriptDisplay.innerText)
+        copyRawLinkButton.onclick = function() {
+            navigator.clipboard.writeText(rawLink.href)
                 .then(() => {
-                    alert('Script copied to clipboard!');
+                    alert('Raw link copied to clipboard!');
                 })
                 .catch(err => {
                     console.error('Failed to copy: ', err);
