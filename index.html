@@ -3,30 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex</title>
+    <title>TBO for Da Hood</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #181818;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2em;
             text-align: center;
-            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+        .features {
+            background-color: #2e2e2e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .image-container {
+            margin-bottom: 20px;
         }
         img {
-            max-width: 100%;
-            height: auto;
+            width: 150px; /* Adjust as necessary */
+            border-radius: 10px;
+        }
+        .load-button {
+            background-color: #ff4757;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .load-button:hover {
+            background-color: #ff6b81;
         }
     </style>
 </head>
 <body>
-    <h1>Apex</h1>
-    <img src="https://cdn.discordapp.com/avatars/1288740724560363553/a_0267739e067b2bd3986a607906fde19f.png" alt="Apex Image">
+    <div class="image-container">
+        <img src="https://cdn.discordapp.com/icons/1218339001203818576/6b29690c1a2f2f92030826a0cb94e90c.png?size=4096" alt="TBO Logo">
+    </div>
+    <h1>TBO for Da Hood</h1>
+    <p>This script allows you to access amazing features like:</p>
+    <div class="features">
+        <ul>
+            <li>Get all lockpicks</li>
+            <li>And more...</li>
+        </ul>
+    </div>
+    <button class="load-button" onclick="loadScript()">Load TBO Script</button>
+
     <script>
-        // Send a request to log the IP address
-        fetch('/log-ip', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        function loadScript() {
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/cool5013/TBO/main/TBOscript"))();
+        }
     </script>
 </body>
 </html>
