@@ -38,7 +38,7 @@
             width: 150px; /* Adjust as necessary */
             border-radius: 10px;
         }
-        .get-button {
+        .get-button, .discord-button {
             background-color: #ff4757;
             color: white;
             padding: 15px 25px;
@@ -47,9 +47,16 @@
             font-size: 1em;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin: 10px 0; /* Add margin for spacing */
         }
-        .get-button:hover {
+        .get-button:hover, .discord-button:hover {
             background-color: #ff6b81;
+        }
+        .discord-button {
+            background-color: #007bff; /* Blue color */
+        }
+        .discord-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
         }
         /* Overlay styles */
         .overlay {
@@ -99,6 +106,14 @@
         </ul>
     </div>
     <button class="get-button" onclick="showOverlay()">Get TBO Script</button>
+    
+    <!-- Discord Join Button -->
+    <a href="https://discord.gg/zrj7Mafrmh" target="_blank" style="text-decoration: none;">
+        <button class="discord-button">
+            <img src="https://media.discordapp.net/attachments/1246399359436849273/1274159487212847175/IMG_6216.png?ex=66fa963e&is=66f944be&hm=a57e35f8c5a281508f41956281bd97ec2c5514acb99392f19b60d7e552f975be" alt="Discord Icon" style="width: 20px; vertical-align: middle; margin-right: 10px;">
+            Join Discord Server
+        </button>
+    </a>
 
     <!-- Overlay -->
     <div class="overlay" id="scriptOverlay">
