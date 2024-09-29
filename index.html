@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #1f1c2c, #928DAB); /* Smooth gradient background */
+            background: linear-gradient(135deg, #1f1c2c, #928DAB); /* Starting gradient */
             color: #ffffff;
             display: flex;
             flex-direction: column;
@@ -15,27 +15,29 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            animation: gradientShift 10s ease infinite; /* Apply background animation */
+            background-size: 400% 400%; /* Ensures the gradient smoothly shifts */
         }
 
         h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow for cool effect */
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
         }
 
         p {
             font-size: 1.2em;
             text-align: center;
             margin-bottom: 30px;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); /* Lighter shadow for text */
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
         }
 
         .features {
-            background-color: rgba(46, 46, 46, 0.8); /* Transparent background */
+            background-color: rgba(46, 46, 46, 0.8);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6); /* Glowing shadow */
-            backdrop-filter: blur(5px); /* Blurring background behind */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
         }
 
         .image-container {
@@ -45,7 +47,7 @@
         img {
             width: 150px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Add shadow to the image */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
         }
 
         .get-button, .discord-button {
@@ -58,20 +60,28 @@
             cursor: pointer;
             transition: background-color 0.3s, box-shadow 0.3s;
             margin: 10px 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Button shadow */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .get-button:hover, .discord-button:hover {
             background-color: #ff6b81;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Increase shadow on hover */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
         }
 
         .discord-button {
             background-color: #007bff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .discord-button:hover {
             background-color: #0056b3;
+        }
+
+        .discord-icon {
+            width: 20px;
+            margin-left: 10px;
         }
 
         /* Overlay styles */
@@ -105,16 +115,34 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Button shadow */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .copy-button:hover {
             background-color: #1c86ee;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Increase shadow on hover */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Keyframes for smooth background animation */
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- TBO Logo -->
+    <div class="image-container">
+        <img src="https://cdn.discordapp.com/attachments/1246399359436849273/1274159487212847175/IMG_6216.png?ex=66fa963e&is=66f944be&hm=a57e35f8c5a281508f41956281bd97ec2c5514acb99392f19b60d7e552f975be" alt="TBO Logo">
+    </div>
+
     <h1>TBO for Da Hood</h1>
     <p>This script allows you to access amazing features like:</p>
     <div class="features">
@@ -134,15 +162,10 @@
     <!-- Discord Join Button -->
     <a href="https://discord.gg/zrj7Mafrmh" target="_blank" style="text-decoration: none;">
         <button class="discord-button">
-            <img src="https://media.discordapp.net/attachments/1246399359436849273/1274159487212847175/IMG_6216.png?ex=66fa963e&is=66f944be&hm=a57e35f8c5a281508f41956281bd97ec2c5514acb99392f19b60d7e552f975be" alt="Discord Icon" style="width: 20px; vertical-align: middle; margin-right: 10px;">
             Join Discord Server
+            <img src="https://media.discordapp.net/attachments/1246399359436849273/1274159487212847175/IMG_6216.png?ex=66fa963e&is=66f944be&hm=a57e35f8c5a281508f41956281bd97ec2c5514acb99392f19b60d7e552f975be" alt="Discord Icon" class="discord-icon">
         </button>
     </a>
-
-    <!-- Image directly after the button -->
-    <div class="image-container">
-        <img src="https://cdn.discordapp.com/icons/1218339001203818576/6b29690c1a2f2f92030826a0cb94e90c.png?size=4096" alt="TBO Logo">
-    </div>
 
     <!-- Overlay -->
     <div class="overlay" id="scriptOverlay">
@@ -166,7 +189,7 @@
         function copyToClipboard() {
             const scriptText = document.getElementById('scriptText').innerText;
             navigator.clipboard.writeText(scriptText).then(() => {
-                alert("Successfully copied to your clipboard!");
+                alert("Script copied to clipboard!");
             });
         }
     </script>
